@@ -12,21 +12,100 @@ import { runSimulation, formatPopulation } from './simulator';
 import { translations, detectLanguage, t } from './i18n';
 import './App.css';
 
+// 年份输入模态框
+function YearInputModal({ isOpen, onClose, onConfirm, minYear, maxYear, lang }) {
+  const [yearInput, setYearInput] = useState('');
+  const [error, setError] = useState('');
+  
+  if (!isOpen) return null;
+  
+  const handleConfirm = () => {
+    const newYear = parseInt(yearInput);
+    if (isNaN(newYear) || newYear < minYear || newYear > maxYear + 50) {
+      setError(lang === 'zh' ? `请输入 ${minYear}-${maxYear + 50} 之间的年份` : `Please enter a year between ${minYear}-${maxYear + 50}`);
+      return;
+    }
+    setError('');
+    setYearInput('');
+    onConfirm(newYear);
+  };
+  
+  const handleClose = () => {
+    setError('');
+    setYearInput('');
+    onClose();
+  };
+  
+  return (
+    <div className="modal-overlay" onClick={handleClose}>
+      <div className="modal-content" onClick={e => e.stopPropagation()}>
+        <div className="modal-header">
+          {lang === 'zh' ? '添加年份节点' : 'Add Year Node'}
+        </div>
+        <div className="modal-body">
+          <input
+            type="number"
+            className="modal-input"
+            placeholder={lang === 'zh' ? '输入年份' : 'Enter year'}
+            value={yearInput}
+            onChange={e => setYearInput(e.target.value)}
+            onKeyDown={e => e.key === 'Enter' && handleConfirm()}
+            autoFocus
+          />
+          {error && <div className="modal-error">{error}</div>}
+          <div className="modal-hint">
+            {lang === 'zh' ? `范围: ${minYear} - ${maxYear + 50}` : `Range: ${minYear} - ${maxYear + 50}`}
+          </div>
+        </div>
+        <div className="modal-footer">
+          <button className="modal-btn cancel" onClick={handleClose}>
+            {lang === 'zh' ? '取消' : 'Cancel'}
+          </button>
+          <button className="modal-btn confirm" onClick={handleConfirm}>
+            {lang === 'zh' ? '确定' : 'Confirm'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // 参数编辑器组件
-function ParameterEditor({ title, color, values, onChange, unit, min, max, step, addText }) {
+function ParameterEditor({ title, color, values, onChange, unit, min, max, step, addText, lang }) {
+  const [showModal, setShowModal] = useState(false);
+  
   const chartData = Object.entries(values)
     .map(([year, value]) => ({ year: parseInt(year), value }))
     .sort((a, b) => a.year - b.year);
   
-  const addNode = () => {
-    const years = Object.keys(values).map(Number);
-    const maxYear = Math.max(...years);
-    if (maxYear < 2100) {
-      const newYear = Math.min(maxYear + 25, 2100);
-      if (!values[newYear]) {
-        onChange({ ...values, [newYear]: values[maxYear] });
-      }
+  const years = Object.keys(values).map(Number).sort((a, b) => a - b);
+  const minYear = Math.min(...years);
+  const maxYear = Math.max(...years);
+  
+  const handleAddYear = (newYear) => {
+    if (values[newYear] !== undefined) {
+      return;
     }
+    
+    // 计算新节点的默认值（线性插值或外推）
+    let newValue;
+    if (newYear <= minYear) {
+      newValue = values[minYear];
+    } else if (newYear >= maxYear) {
+      newValue = values[maxYear];
+    } else {
+      let lowerYear = minYear, upperYear = maxYear;
+      for (const y of years) {
+        if (y < newYear && y > lowerYear) lowerYear = y;
+        if (y > newYear && y < upperYear) upperYear = y;
+      }
+      const v1 = values[lowerYear];
+      const v2 = values[upperYear];
+      newValue = v1 + (v2 - v1) * (newYear - lowerYear) / (upperYear - lowerYear);
+    }
+    
+    onChange({ ...values, [newYear]: Math.round(newValue * 100) / 100 });
+    setShowModal(false);
   };
   
   const updateValue = (year, val) => {
@@ -81,10 +160,18 @@ function ParameterEditor({ title, color, values, onChange, unit, min, max, step,
             )}
           </div>
         ))}
-        <button className="node-add" onClick={addNode}>
+        <button className="node-add" onClick={() => setShowModal(true)}>
           <Plus size={14} /> {addText}
         </button>
       </div>
+      <YearInputModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onConfirm={handleAddYear}
+        minYear={minYear}
+        maxYear={maxYear}
+        lang={lang}
+      />
     </div>
   );
 }
@@ -306,6 +393,7 @@ function App() {
               max={3} 
               step={0.05}
               addText={T('add')}
+              lang={lang}
             />
             <ParameterEditor 
               title={T('lifeExpectancy')} 
@@ -317,6 +405,7 @@ function App() {
               max={95} 
               step={0.5}
               addText={T('add')}
+              lang={lang}
             />
             <ParameterEditor 
               title={T('childAge')} 
@@ -328,6 +417,7 @@ function App() {
               max={40} 
               step={0.5}
               addText={T('add')}
+              lang={lang}
             />
           </div>
         </div>

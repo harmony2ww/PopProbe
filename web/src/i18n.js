@@ -67,7 +67,12 @@ export const translations = {
     // Language
     language: 'Language',
     langZh: '中文',
-    langEn: 'English'
+    langEn: 'English',
+    
+    // Add node
+    enterYear: 'Enter year',
+    invalidYear: 'Please enter a valid year',
+    yearExists: 'already exists'
   },
   zh: {
     // Header
@@ -136,7 +141,12 @@ export const translations = {
     // Language
     language: '语言',
     langZh: '中文',
-    langEn: 'English'
+    langEn: 'English',
+    
+    // Add node
+    enterYear: '请输入年份',
+    invalidYear: '请输入有效年份',
+    yearExists: '年已存在'
   }
 };
 
