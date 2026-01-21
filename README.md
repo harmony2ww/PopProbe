@@ -2,7 +2,7 @@
 
 [中文文档](./docs/README_zh.md)
 
-> **[Live Demo](https://your-username.github.io/popprobe/)** *(Coming Soon)*
+> **[Live Demo](https://harmony2ww.github.io/PopProbe/)**
 
 ## Overview
 

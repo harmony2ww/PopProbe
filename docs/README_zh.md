@@ -2,7 +2,7 @@
 
 [English Documentation](../README.md)
 
-> **[在线演示](https://your-username.github.io/popprobe/)** *(即将上线)*
+> **[在线演示](https://harmony2ww.github.io/PopProbe/)**
 
 ## 概述
 
@@ -64,7 +64,7 @@ P'(age+1) = P(age) - D(age)  # 老化并扣除死亡
 
 **假设**：封闭人口（不考虑迁移）、参数线性变化、最大年龄100岁
 
-**局限性**：不考虑突发事件、政策突变、社会经济因素简化处理
+**局限性**：不考虑突发事件、政策突变、社会经济因素简化处理、暂未考虑2100年末人均预期寿命达到150岁的情况
 
 ---
 
