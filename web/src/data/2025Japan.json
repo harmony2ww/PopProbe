@@ -1,0 +1,67 @@
+{
+    "country": "日本",
+    "country_en": "Japan",
+    "year": 2025,
+    "data_source": "日本总务省统计局 2026年1月1日推算",
+    "data_source_en": "Statistics Bureau of Japan, Population Estimates as of January 1, 2026",
+    "data_url": "https://www.stat.go.jp/data/jinsui/pdf/202601.pdf",
+    "population_unit": "万人",
+    
+    "population_by_age_group": {
+        "0-4岁": 376,
+        "5-9岁": 450,
+        "10-14岁": 511,
+        "15-19岁": 549,
+        "20-24岁": 618,
+        "25-29岁": 656,
+        "30-34岁": 641,
+        "35-39岁": 667,
+        "40-44岁": 746,
+        "45-49岁": 837,
+        "50-54岁": 978,
+        "55-59岁": 864,
+        "60-64岁": 784,
+        "65-69岁": 716,
+        "70-74岁": 766,
+        "75-79岁": 851,
+        "80-84岁": 589,
+        "85-89岁": 401,
+        "90-94岁": 217,
+        "95岁以上": 77
+    },
+    
+    "total_population": 12295,
+    
+    "parameters": {
+        "dynamic_tfr": {
+            "enabled": true,
+            "values": {
+                "2025": 1.20,
+                "2050": 1.00,
+                "2100": 0.80
+            }
+        },
+        "dynamic_life_expectancy": {
+            "enabled": true,
+            "values": {
+                "2025": 84.0,
+                "2050": 87.0,
+                "2100": 90.0
+            }
+        },
+        "dynamic_childbearing_age": {
+            "enabled": true,
+            "values": {
+                "2025": 32.0,
+                "2050": 34.0,
+                "2100": 36.0
+            }
+        },
+        "fertility_std_dev": 5.0,
+        "sex_ratio_at_birth": 1.05
+    },
+    
+    "methodology_zh": "## 数据来源\n\n日本总务省统计局《人口推计》月报，基于2020年国势调查（人口普查）结果。\n\n## 数据算法\n\n### 日本官方人口推计方法\n\n```\n总人口 = 基准人口 + 自然动态 + 社会动态\n```\n\n其中：\n- **自然动态** = 出生人数 - 死亡人数（来源：厚生劳动省《人口动态统计》）\n- **社会动态** = 入境人数 - 出境人数（来源：出入国在留管理厅《出入国管理统计》）\n\n### 本模拟器计算思路\n\n1. **队列组元法（Cohort-Component Method）**：将人口按单岁年龄分组，逐年模拟\n2. **出生模拟**：育龄女性(15-49岁) × 年龄别生育率 × 总和生育率\n3. **死亡模拟**：采用Gompertz死亡率模型，根据预期寿命校准参数\n4. **年龄别生育分布**：基于Beta分布，可通过平均生育年龄动态调整\n5. **动态参数**：TFR、预期寿命、平均生育年龄均支持多年份线性插值",
+    
+    "methodology_en": "## Data Source\n\nPopulation Estimates Monthly Report from Statistics Bureau of Japan, based on 2020 Population Census.\n\n## Algorithm\n\n### Official Japanese Population Estimation Method\n\n```\nTotal Population = Base Population + Natural Change + Migration Change\n```\n\nWhere:\n- **Natural Change** = Births - Deaths (Source: Vital Statistics, Ministry of Health, Labour and Welfare)\n- **Migration Change** = Entries - Exits (Source: Immigration Statistics, Immigration Services Agency)\n\n### Simulation Methodology\n\n1. **Cohort-Component Method**: Population grouped by single-year age, simulated annually\n2. **Birth Simulation**: Fertile females (15-49) × Age-specific fertility rate × TFR\n3. **Death Simulation**: Gompertz mortality model, parameters calibrated by life expectancy\n4. **Age-specific Fertility Distribution**: Beta distribution, adjustable via mean childbearing age\n5. **Dynamic Parameters**: TFR, life expectancy, and mean childbearing age support multi-year linear interpolation"
+}

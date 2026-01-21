@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900">
+  <defs>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1d4ed8;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#22c55e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#16a34a;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f97316;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ea580c;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="redGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ef4444;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#dc2626;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="2" dy="4" stdDeviation="4" flood-opacity="0.15"/>
+    </filter>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#64748b"/>
+    </marker>
+  </defs>
+  
+  <rect width="1200" height="900" fill="#f8fafc"/>
+  
+  <text x="600" y="50" text-anchor="middle" font-size="28" font-weight="bold" fill="#0f172a" font-family="Microsoft YaHei, SimHei, sans-serif">&#x961F;&#x5217;&#x8981;&#x7D20;&#x6CD5;&#x4EBA;&#x53E3;&#x9884;&#x6D4B;&#x6A21;&#x578B;</text>
+  <text x="600" y="80" text-anchor="middle" font-size="16" fill="#64748b" font-family="Arial, sans-serif">Cohort-Component Population Projection Model</text>
+  
+  <rect x="50" y="110" width="320" height="200" rx="12" fill="white" stroke="#e2e8f0" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="50" y="110" width="320" height="40" rx="12" fill="url(#blueGrad)"/>
+  <text x="210" y="137" text-anchor="middle" font-size="16" font-weight="bold" fill="white" font-family="Microsoft YaHei, SimHei, sans-serif">&#x8F93;&#x5165;&#x6570;&#x636E;</text>
+  
+  <text x="70" y="175" font-size="14" fill="#374151" font-family="Microsoft YaHei, SimHei, sans-serif">&#x2022; &#x57FA;&#x5E74;&#x4EBA;&#x53E3;&#xFF08;&#x5206;&#x5E74;&#x9F84;&#x7EC4;&#xFF09;</text>
+  <text x="70" y="200" font-size="14" fill="#374151" font-family="Microsoft YaHei, SimHei, sans-serif">&#x2022; &#x603B;&#x548C;&#x751F;&#x80B2;&#x7387; TFR &#x66F2;&#x7EBF;</text>
+  <text x="70" y="225" font-size="14" fill="#374151" font-family="Microsoft YaHei, SimHei, sans-serif">&#x2022; &#x9884;&#x671F;&#x5BFF;&#x547D;&#x53D8;&#x5316;&#x66F2;&#x7EBF;</text>
+  <text x="70" y="250" font-size="14" fill="#374151" font-family="Microsoft YaHei, SimHei, sans-serif">&#x2022; &#x5E73;&#x5747;&#x751F;&#x80B2;&#x5E74;&#x9F84;&#x66F2;&#x7EBF;</text>
+  <text x="70" y="275" font-size="14" fill="#374151" font-family="Microsoft YaHei, SimHei, sans-serif">&#x2022; &#x51FA;&#x751F;&#x6027;&#x522B;&#x6BD4;</text>
+  
+  <rect x="430" y="110" width="340" height="200" rx="12" fill="white" stroke="#e2e8f0" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="430" y="110" width="340" height="40" rx="12" fill="url(#purpleGrad)"/>
+  <text x="600" y="137" text-anchor="middle" font-size="16" font-weight="bold" fill="white" font-family="Microsoft YaHei, SimHei, sans-serif">&#x6570;&#x636E;&#x9884;&#x5904;&#x7406;</text>
+  
+  <text x="450" y="175" font-size="14" fill="#374151" font-family="Microsoft YaHei, SimHei, sans-serif">1. 5&#x5C81;&#x7EC4;&#x4EBA;&#x53E3; &#x2192; &#x5355;&#x5C81;&#x4EBA;&#x53E3;&#x63D2;&#x503C;</text>
+  <text x="450" y="200" font-size="14" fill="#374151" font-family="Microsoft YaHei, SimHei, sans-serif">2. &#x5355;&#x4F4D;&#x6807;&#x51C6;&#x5316;&#xFF08;&#x7EDF;&#x4E00;&#x5230;&#x5343;&#x4EBA;&#xFF09;</text>
+  <text x="450" y="225" font-size="14" fill="#374151" font-family="Microsoft YaHei, SimHei, sans-serif">3. &#x53C2;&#x6570;&#x7EBF;&#x6027;&#x63D2;&#x503C;&#xFF08;&#x5E74;&#x4EFD;&#x2192;&#x6570;&#x503C;&#xFF09;</text>
+  <text x="460" y="255" font-size="13" fill="#64748b" font-family="Arial, sans-serif">P(age) = P(group) / 5</text>
+  <text x="460" y="280" font-size="13" fill="#64748b" font-family="Arial, sans-serif">V(y) = V1 + (V2-V1) * (y-y1)/(y2-y1)</text>
+  
+  <rect x="830" y="110" width="320" height="200" rx="12" fill="white" stroke="#e2e8f0" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="830" y="110" width="320" height="40" rx="12" fill="url(#greenGrad)"/>
+  <text x="990" y="137" text-anchor="middle" font-size="16" font-weight="bold" fill="white" font-family="Microsoft YaHei, SimHei, sans-serif">&#x5E74;&#x5EA6;&#x8FED;&#x4EE3;&#x5FAA;&#x73AF;</text>
+  
+  <text x="850" y="175" font-size="14" font-weight="600" fill="#374151" font-family="Microsoft YaHei, SimHei, sans-serif">For year = &#x57FA;&#x5E74; &#x2192; &#x7EC8;&#x6B62;&#x5E74;:</text>
+  <text x="860" y="200" font-size="14" fill="#374151" font-family="Microsoft YaHei, SimHei, sans-serif">&#x2460; &#x8BA1;&#x7B97;&#x5F53;&#x5E74;&#x51FA;&#x751F;&#x4EBA;&#x6570;</text>
+  <text x="860" y="225" font-size="14" fill="#374151" font-family="Microsoft YaHei, SimHei, sans-serif">&#x2461; &#x8BA1;&#x7B97;&#x5404;&#x5E74;&#x9F84;&#x6B7B;&#x4EA1;&#x4EBA;&#x6570;</text>
+  <text x="860" y="250" font-size="14" fill="#374151" font-family="Microsoft YaHei, SimHei, sans-serif">&#x2462; &#x4EBA;&#x53E3;&#x8001;&#x5316;&#xFF08;&#x5E74;&#x9F84;+1&#xFF09;</text>
+  <text x="860" y="275" font-size="14" fill="#374151" font-family="Microsoft YaHei, SimHei, sans-serif">&#x2463; &#x8BB0;&#x5F55;&#x7EDF;&#x8BA1;&#x6307;&#x6807;</text>
+  
+  <path d="M370 210 L430 210" stroke="#64748b" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <path d="M770 210 L830 210" stroke="#64748b" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <rect x="50" y="350" width="360" height="220" rx="12" fill="white" stroke="#e2e8f0" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="50" y="350" width="360" height="40" rx="12" fill="url(#greenGrad)"/>
+  <text x="230" y="377" text-anchor="middle" font-size="16" font-weight="bold" fill="white" font-family="Microsoft YaHei, SimHei, sans-serif">&#x751F;&#x80B2;&#x6A21;&#x578B; (Beta&#x5206;&#x5E03;)</text>
+  
+  <text x="70" y="420" font-size="14" font-weight="600" fill="#374151" font-family="Microsoft YaHei, SimHei, sans-serif">&#x5E74;&#x9F84;&#x522B;&#x751F;&#x80B2;&#x7387; ASFR:</text>
+  <text x="70" y="450" font-size="13" fill="#64748b" font-family="Arial, sans-serif">f(age) = x^(a-1) * (1-x)^(b-1) / B(a,b)</text>
+  <text x="70" y="475" font-size="13" fill="#64748b" font-family="Microsoft YaHei, SimHei, sans-serif">&#x5176;&#x4E2D; x = (age - 15) / 34</text>
+  
+  <text x="70" y="510" font-size="14" font-weight="600" fill="#374151" font-family="Microsoft YaHei, SimHei, sans-serif">&#x51FA;&#x751F;&#x8BA1;&#x7B97;&#x516C;&#x5F0F;:</text>
+  <text x="70" y="540" font-size="13" fill="#64748b" font-family="Microsoft YaHei, SimHei, sans-serif">B = &#x2211; P(age) &#x00D7; &#x5973;&#x6027;&#x6BD4;&#x4F8B; &#x00D7; TFR &#x00D7; f(age)</text>
+  <text x="70" y="560" font-size="12" fill="#94a3b8" font-family="Microsoft YaHei, SimHei, sans-serif">&#x80B2;&#x9F84;&#x8303;&#x56F4;: 15-49&#x5C81;</text>
+  
+  <rect x="420" y="350" width="360" height="220" rx="12" fill="white" stroke="#e2e8f0" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="420" y="350" width="360" height="40" rx="12" fill="url(#redGrad)"/>
+  <text x="600" y="377" text-anchor="middle" font-size="16" font-weight="bold" fill="white" font-family="Microsoft YaHei, SimHei, sans-serif">&#x6B7B;&#x4EA1;&#x6A21;&#x578B; (Gompertz)</text>
+  
+  <text x="440" y="420" font-size="14" font-weight="600" fill="#374151" font-family="Microsoft YaHei, SimHei, sans-serif">&#x5E74;&#x9F84;&#x522B;&#x6B7B;&#x4EA1;&#x7387; ASMR:</text>
+  <text x="440" y="450" font-size="13" fill="#64748b" font-family="Arial, sans-serif">&#x03BC;(age) = A &#x00D7; exp(B &#x00D7; age)</text>
+  <text x="440" y="475" font-size="13" fill="#64748b" font-family="Microsoft YaHei, SimHei, sans-serif">&#x53C2;&#x6570; A, B &#x7531;&#x9884;&#x671F;&#x5BFF;&#x547D;&#x6821;&#x51C6;</text>
+  
+  <text x="440" y="510" font-size="14" font-weight="600" fill="#374151" font-family="Microsoft YaHei, SimHei, sans-serif">&#x6B7B;&#x4EA1;&#x8BA1;&#x7B97;&#x516C;&#x5F0F;:</text>
+  <text x="440" y="540" font-size="13" fill="#64748b" font-family="Microsoft YaHei, SimHei, sans-serif">D = &#x2211; P(age) &#x00D7; &#x03BC;(age)</text>
+  <text x="440" y="560" font-size="12" fill="#94a3b8" font-family="Microsoft YaHei, SimHei, sans-serif">&#x5A74;&#x513F;&#x6B7B;&#x4EA1;&#x7387;&#x5355;&#x72EC;&#x8BBE;&#x5B9A;</text>
+  
+  <rect x="790" y="350" width="360" height="220" rx="12" fill="white" stroke="#e2e8f0" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="790" y="350" width="360" height="40" rx="12" fill="url(#orangeGrad)"/>
+  <text x="970" y="377" text-anchor="middle" font-size="16" font-weight="bold" fill="white" font-family="Microsoft YaHei, SimHei, sans-serif">&#x4EBA;&#x53E3;&#x8F6C;&#x79FB;&#x65B9;&#x7A0B;</text>
+  
+  <text x="810" y="420" font-size="14" font-weight="600" fill="#374151" font-family="Microsoft YaHei, SimHei, sans-serif">&#x4EBA;&#x53E3;&#x8001;&#x5316;&#x516C;&#x5F0F;:</text>
+  <text x="810" y="450" font-size="13" fill="#64748b" font-family="Microsoft YaHei, SimHei, sans-serif">P'(0) = B (&#x65B0;&#x751F;&#x513F;)</text>
+  <text x="810" y="480" font-size="13" fill="#64748b" font-family="Arial, sans-serif">P'(age+1) = P(age) - D(age)</text>
+  <text x="810" y="510" font-size="13" fill="#64748b" font-family="Microsoft YaHei, SimHei, sans-serif">P'(100) = 0 (&#x6700;&#x5927;&#x5E74;&#x9F84;)</text>
+  
+  <text x="810" y="545" font-size="14" font-weight="600" fill="#374151" font-family="Microsoft YaHei, SimHei, sans-serif">&#x81EA;&#x7136;&#x589E;&#x957F;:</text>
+  <text x="810" y="565" font-size="13" fill="#64748b" font-family="Arial, sans-serif">&#x0394;P = B - D</text>
+  
+  <rect x="50" y="610" width="1100" height="130" rx="12" fill="white" stroke="#e2e8f0" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="50" y="610" width="1100" height="40" rx="12" fill="url(#blueGrad)"/>
+  <text x="600" y="637" text-anchor="middle" font-size="16" font-weight="bold" fill="white" font-family="Microsoft YaHei, SimHei, sans-serif">&#x8F93;&#x51FA;&#x7ED3;&#x679C;</text>
+  
+  <g transform="translate(80, 680)">
+    <rect x="0" y="0" width="150" height="40" rx="8" fill="#eff6ff" stroke="#3b82f6"/>
+    <text x="75" y="25" text-anchor="middle" font-size="13" fill="#1d4ed8" font-family="Microsoft YaHei, SimHei, sans-serif">&#x603B;&#x4EBA;&#x53E3;</text>
+  </g>
+  <g transform="translate(250, 680)">
+    <rect x="0" y="0" width="150" height="40" rx="8" fill="#f0fdf4" stroke="#22c55e"/>
+    <text x="75" y="25" text-anchor="middle" font-size="13" fill="#16a34a" font-family="Microsoft YaHei, SimHei, sans-serif">&#x51FA;&#x751F;&#x4EBA;&#x6570;</text>
+  </g>
+  <g transform="translate(420, 680)">
+    <rect x="0" y="0" width="150" height="40" rx="8" fill="#fef2f2" stroke="#ef4444"/>
+    <text x="75" y="25" text-anchor="middle" font-size="13" fill="#dc2626" font-family="Microsoft YaHei, SimHei, sans-serif">&#x6B7B;&#x4EA1;&#x4EBA;&#x6570;</text>
+  </g>
+  <g transform="translate(590, 680)">
+    <rect x="0" y="0" width="150" height="40" rx="8" fill="#fff7ed" stroke="#f97316"/>
+    <text x="75" y="25" text-anchor="middle" font-size="13" fill="#ea580c" font-family="Microsoft YaHei, SimHei, sans-serif">&#x8001;&#x9F84;&#x5316;&#x7387;</text>
+  </g>
+  <g transform="translate(760, 680)">
+    <rect x="0" y="0" width="150" height="40" rx="8" fill="#f5f3ff" stroke="#8b5cf6"/>
+    <text x="75" y="25" text-anchor="middle" font-size="13" fill="#7c3aed" font-family="Microsoft YaHei, SimHei, sans-serif">&#x629A;&#x517B;&#x6BD4;</text>
+  </g>
+  <g transform="translate(930, 680)">
+    <rect x="0" y="0" width="150" height="40" rx="8" fill="#fdf4ff" stroke="#d946ef"/>
+    <text x="75" y="25" text-anchor="middle" font-size="13" fill="#c026d3" font-family="Microsoft YaHei, SimHei, sans-serif">&#x5E74;&#x9F84;&#x7ED3;&#x6784;</text>
+  </g>
+  
+  <path d="M230 570 L230 610" stroke="#64748b" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <path d="M600 570 L600 610" stroke="#64748b" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <path d="M970 570 L970 610" stroke="#64748b" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <rect x="50" y="760" width="1100" height="120" rx="12" fill="#f1f5f9"/>
+  <text x="80" y="790" font-size="14" font-weight="bold" fill="#374151" font-family="Microsoft YaHei, SimHei, sans-serif">&#x7B26;&#x53F7;&#x8BF4;&#x660E;:</text>
+  <text x="80" y="815" font-size="12" fill="#64748b" font-family="Microsoft YaHei, SimHei, sans-serif">P(age) = age&#x5C81;&#x4EBA;&#x53E3;&#x6570; | B = &#x51FA;&#x751F;&#x4EBA;&#x6570; | D = &#x6B7B;&#x4EA1;&#x4EBA;&#x6570; | TFR = &#x603B;&#x548C;&#x751F;&#x80B2;&#x7387; | &#x03BC; = &#x6B7B;&#x4EA1;&#x7387; | f = &#x751F;&#x80B2;&#x7387;&#x5206;&#x5E03;</text>
+  <text x="80" y="840" font-size="12" fill="#64748b" font-family="Microsoft YaHei, SimHei, sans-serif">a, b = Beta/Gompertz&#x5206;&#x5E03;&#x53C2;&#x6570; | &#x5973;&#x6027;&#x6BD4;&#x4F8B; = 1/(1+&#x51FA;&#x751F;&#x6027;&#x522B;&#x6BD4;)</text>
+  <text x="80" y="865" font-size="12" fill="#64748b" font-family="Microsoft YaHei, SimHei, sans-serif">&#x6A21;&#x578B;&#x5047;&#x8BBE;: &#x5C01;&#x95ED;&#x4EBA;&#x53E3;&#xFF08;&#x4E0D;&#x8003;&#x8651;&#x8FC1;&#x79FB;&#xFF09;&#x3001;&#x751F;&#x80B2;&#x5E74;&#x9F84;15-49&#x5C81;&#x3001;&#x6700;&#x5927;&#x5BFF;&#x547D;100&#x5C81;&#x3001;&#x5E74;&#x5EA6;&#x8FED;&#x4EE3;</text>
+</svg>

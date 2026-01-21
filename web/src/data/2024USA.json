@@ -1,0 +1,67 @@
+{
+    "country": "美国",
+    "country_en": "United States",
+    "year": 2024,
+    "data_source": "美国人口普查局 2024年美国社区调查(ACS)",
+    "data_source_en": "U.S. Census Bureau, 2024 American Community Survey 1-Year Estimates",
+    "data_url": "https://data.census.gov/table/ACSDP1Y2024.DP05?q=DP05",
+    "population_unit": "person",
+    
+    "population_by_age_group": {
+        "0-4岁": 18365047,
+        "5-9岁": 19806742,
+        "10-14岁": 21346363,
+        "15-19岁": 22449564,
+        "20-24岁": 22232555,
+        "25-29岁": 23099203,
+        "30-34岁": 23099202,
+        "35-39岁": 22978443,
+        "40-44岁": 22978442,
+        "45-49岁": 20411443,
+        "50-54岁": 20411442,
+        "55-59岁": 19958796,
+        "60-64岁": 21728465,
+        "65-69岁": 17792546,
+        "70-74岁": 17792545,
+        "75-79岁": 9658520,
+        "80-84岁": 9658519,
+        "85-89岁": 4234769,
+        "90-94岁": 1584890,
+        "95岁以上": 523494
+    },
+    
+    "total_population": 340110990,
+    
+    "parameters": {
+        "dynamic_tfr": {
+            "enabled": true,
+            "values": {
+                "2024": 1.66,
+                "2050": 1.70,
+                "2100": 1.60
+            }
+        },
+        "dynamic_life_expectancy": {
+            "enabled": true,
+            "values": {
+                "2024": 79.0,
+                "2050": 82.0,
+                "2100": 86.0
+            }
+        },
+        "dynamic_childbearing_age": {
+            "enabled": true,
+            "values": {
+                "2024": 29.5,
+                "2050": 31.0,
+                "2100": 32.0
+            }
+        },
+        "fertility_std_dev": 5.5,
+        "sex_ratio_at_birth": 1.05
+    },
+    
+    "methodology_zh": "## 数据来源\n\n美国人口普查局《美国社区调查》(American Community Survey, ACS) 2024年1年期估计数据。\n\n数据来源：[U.S. Census Bureau](https://data.census.gov/table/ACSDP1Y2024.DP05?q=DP05)\n\n## 数据说明\n\n### 美国人口统计方法\n\n美国采用**十年一次人口普查**与**年度社区调查(ACS)**相结合：\n- 十年普查(Decennial Census)：每10年进行全面统计（最近：2020年）\n- 美国社区调查(ACS)：年度抽样调查，提供年度人口估计\n\n### 参数估计依据\n\n1. **总和生育率(TFR)**：2024年约1.66，相对稳定\n2. **预期寿命**：2024年约79岁\n3. **平均生育年龄**：约29.5岁\n4. **出生性别比**：约1.05（自然比例）\n\n### 数据处理说明\n\n原始数据中25-34、35-44、45-54、65-74、75-84岁为10年组，已均匀拆分为5年组。\n85岁以上按指数衰减分配到85-89、90-94、95+三组。",
+    
+    "methodology_en": "## Data Source\n\nU.S. Census Bureau, American Community Survey (ACS) 2024 1-Year Estimates.\n\nSource: [U.S. Census Bureau](https://data.census.gov/table/ACSDP1Y2024.DP05?q=DP05)\n\n## Data Description\n\n### U.S. Population Statistics Method\n\nThe U.S. combines **Decennial Census** with **American Community Survey (ACS)**:\n- Decennial Census: Complete enumeration every 10 years (latest: 2020)\n- ACS: Annual sample survey providing yearly population estimates\n\n### Parameter Estimation Basis\n\n1. **Total Fertility Rate (TFR)**: ~1.66 in 2024, relatively stable\n2. **Life Expectancy**: ~79 years in 2024\n3. **Mean Childbearing Age**: ~29.5 years\n4. **Sex Ratio at Birth**: ~1.05 (natural ratio)\n\n### Data Processing Notes\n\nOriginal data had 10-year age groups for 25-34, 35-44, 45-54, 65-74, 75-84. These were evenly split into 5-year groups.\n85+ population was distributed to 85-89, 90-94, 95+ using exponential decay."
+}

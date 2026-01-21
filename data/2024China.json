@@ -1,0 +1,67 @@
+{
+    "country": "中国",
+    "country_en": "China",
+    "year": 2024,
+    "data_source": "国家统计局 2024年人口抽样调查数据",
+    "data_source_en": "National Bureau of Statistics of China, 2024 Population Sample Survey",
+    "data_url": "https://data.stats.gov.cn/easyquery.htm?cn=C01",
+    "population_unit": "千人",
+    
+    "population_by_age_group": {
+        "0-4岁": 51295,
+        "5-9岁": 83685,
+        "10-14岁": 93925,
+        "15-19岁": 85925,
+        "20-24岁": 73422,
+        "25-29岁": 79527,
+        "30-34岁": 101599,
+        "35-39岁": 122172,
+        "40-44岁": 99298,
+        "45-49岁": 97048,
+        "50-54岁": 120777,
+        "55-59岁": 119381,
+        "60-64岁": 92711,
+        "65-69岁": 74494,
+        "70-74岁": 66801,
+        "75-79岁": 41697,
+        "80-84岁": 24282,
+        "85-89岁": 13336,
+        "90-94岁": 4999,
+        "95岁以上": 1062
+    },
+    
+    "total_population": 1447437,
+    
+    "parameters": {
+        "dynamic_tfr": {
+            "enabled": true,
+            "values": {
+                "2024": 1.0,
+                "2050": 0.9,
+                "2100": 0.7
+            }
+        },
+        "dynamic_life_expectancy": {
+            "enabled": true,
+            "values": {
+                "2024": 78.0,
+                "2050": 81.0,
+                "2100": 85.0
+            }
+        },
+        "dynamic_childbearing_age": {
+            "enabled": true,
+            "values": {
+                "2024": 30.0,
+                "2050": 32.0,
+                "2100": 35.0
+            }
+        },
+        "fertility_std_dev": 5.5,
+        "sex_ratio_at_birth": 1.05
+    },
+    
+    "methodology_zh": "## 数据来源\n\n中国国家统计局年度数据，来自人口抽样调查。数据包括按年龄分人口数（5岁分组），单位为万人。\n\n## 数据算法\n\n### 中国官方人口统计方法\n\n中国采用**人口变动抽样调查**与**全国人口普查**相结合的方式：\n- 每10年进行一次全国人口普查（最近一次：2020年）\n- 非普查年份通过1‰人口抽样调查推算\n\n### 本模拟器计算思路\n\n1. **队列组元法（Cohort-Component Method）**\n   - 将5岁组人口均匀插值为单岁人口\n   - 按单岁年龄逐年推进模拟\n\n2. **出生人口计算**\n   ```\n   年出生人数 = Σ(各年龄育龄女性人数 × 该年龄生育率)\n   年龄别生育率 = TFR × 年龄别生育分布比例\n   ```\n\n3. **死亡人口计算**\n   - 采用**Gompertz死亡率模型**：`q(x) = a × e^(b×x)`\n   - 通过网格搜索校准参数(a, b)，使模型预期寿命匹配目标值\n\n4. **年龄别生育分布**\n   - 基于**Beta分布**生成15-49岁生育比例\n   - 可通过设定平均生育年龄动态调整分布形态\n\n5. **动态参数调整**\n   - 支持TFR、预期寿命、平均生育年龄的多年份节点设置\n   - 中间年份自动线性插值",
+    
+    "methodology_en": "## Data Source\n\nAnnual data from National Bureau of Statistics of China, derived from Population Sample Survey. Data includes population by age (5-year groups), unit: ten thousand persons.\n\n## Algorithm\n\n### Official Chinese Population Statistics Method\n\nChina combines **Population Change Sample Survey** with **National Population Census**:\n- National Census conducted every 10 years (latest: 2020)\n- Non-census years estimated through 1‰ population sample survey\n\n### Simulation Methodology\n\n1. **Cohort-Component Method**\n   - Interpolate 5-year age groups to single-year ages (uniform distribution)\n   - Simulate year-by-year progression by single age\n\n2. **Birth Calculation**\n   ```\n   Annual Births = Σ(Females at each fertile age × Age-specific fertility rate)\n   Age-specific fertility rate = TFR × Age-specific fertility proportion\n   ```\n\n3. **Death Calculation**\n   - Uses **Gompertz Mortality Model**: `q(x) = a × e^(b×x)`\n   - Parameters (a, b) calibrated via grid search to match target life expectancy\n\n4. **Age-specific Fertility Distribution**\n   - Generated using **Beta Distribution** for ages 15-49\n   - Distribution shape adjustable via mean childbearing age parameter\n\n5. **Dynamic Parameter Adjustment**\n   - Supports multi-year waypoints for TFR, life expectancy, and mean childbearing age\n   - Intermediate years automatically calculated via linear interpolation"
+}

@@ -1,0 +1,67 @@
+{
+    "country": "台湾省",
+    "country_en": "Taiwan",
+    "year": 2024,
+    "data_source": "台湾省2024年度人口统计",
+    "data_source_en": "Department of Household Registration, Ministry of the Interior, R.O.C. (Taiwan), 2024 Population Statistics",
+    "data_url": "https://www.ris.gov.tw/app/portal/346",
+    "population_unit": "人",
+    
+    "population_by_age_group": {
+        "0-4岁": 736527,
+        "5-9岁": 987340,
+        "10-14岁": 1018519,
+        "15-19岁": 1014757,
+        "20-24岁": 1250320,
+        "25-29岁": 1509963,
+        "30-34岁": 1606517,
+        "35-39岁": 1593037,
+        "40-44岁": 1956963,
+        "45-49岁": 1954903,
+        "50-54岁": 1746713,
+        "55-59岁": 1770457,
+        "60-64岁": 1765497,
+        "65-69岁": 1578864,
+        "70-74岁": 1277079,
+        "75-79岁": 704288,
+        "80-84岁": 484997,
+        "85-89岁": 283742,
+        "90-94岁": 120767,
+        "95岁以上": 38972
+    },
+    
+    "total_population": 23400220,
+    
+    "parameters": {
+        "dynamic_tfr": {
+            "enabled": true,
+            "values": {
+                "2024": 0.87,
+                "2050": 0.80,
+                "2100": 0.65
+            }
+        },
+        "dynamic_life_expectancy": {
+            "enabled": true,
+            "values": {
+                "2024": 81.0,
+                "2050": 84.0,
+                "2100": 88.0
+            }
+        },
+        "dynamic_childbearing_age": {
+            "enabled": true,
+            "values": {
+                "2024": 32.5,
+                "2050": 34.0,
+                "2100": 36.0
+            }
+        },
+        "fertility_std_dev": 5.0,
+        "sex_ratio_at_birth": 1.07
+    },
+    
+    "methodology_zh": "## 数据来源\n\n中华民国内政部户政司《人口统计资料》，民国113年度（2024年）各县市人口数按性别及五岁年龄组分。\n\n数据来源网站：[内政部户政司全球资讯网](https://www.ris.gov.tw/app/portal/346)\n\n## 数据说明\n\n### 台湾人口统计方法\n\n台湾采用**户籍登记制度**，人口数据来自：\n- 户政事务所户籍登记\n- 出生、死亡、迁徙等动态统计\n- 定期人口普查校正\n\n### 参数估计依据\n\n1. **总和生育率(TFR)**：2024年约0.87（全球最低之一），预计持续下降\n2. **预期寿命**：2024年约81岁，医疗水平先进\n3. **平均生育年龄**：约32.5岁，晚婚晚育趋势明显\n4. **出生性别比**：约1.07（略高于自然比例）\n\n### 本模拟器计算思路\n\n1. **队列组元法**：将5岁组人口均匀插值为单岁人口\n2. **出生模拟**：育龄女性(15-49岁) × 年龄别生育率\n3. **死亡模拟**：Gompertz死亡率模型，根据预期寿命校准\n4. **动态参数**：支持TFR、预期寿命、平均生育年龄线性插值",
+    
+    "methodology_en": "## Data Source\n\nPopulation Statistics from Department of Household Registration, Ministry of the Interior, R.O.C. (Taiwan), Year 2024 (ROC Year 113) - Population by Sex and Five-Year Age Groups.\n\nData source: [Department of Household Registration Website](https://www.ris.gov.tw/app/portal/346)\n\n## Data Description\n\n### Taiwan Population Statistics Method\n\nTaiwan uses a **Household Registration System**, with population data from:\n- Household registration at local offices\n- Vital statistics (births, deaths, migration)\n- Periodic census corrections\n\n### Parameter Estimation Basis\n\n1. **Total Fertility Rate (TFR)**: ~0.87 in 2024 (among lowest globally), expected to continue declining\n2. **Life Expectancy**: ~81 years in 2024, advanced healthcare system\n3. **Mean Childbearing Age**: ~32.5 years, late marriage and childbearing trends\n4. **Sex Ratio at Birth**: ~1.07 (slightly above natural ratio)\n\n### Simulation Methodology\n\n1. **Cohort-Component Method**: Interpolate 5-year age groups to single-year ages\n2. **Birth Simulation**: Fertile females (15-49) × Age-specific fertility rate\n3. **Death Simulation**: Gompertz mortality model calibrated to life expectancy\n4. **Dynamic Parameters**: Linear interpolation for TFR, life expectancy, and mean childbearing age"
+}
