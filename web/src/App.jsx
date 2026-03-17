@@ -1,15 +1,18 @@
-import { useState, useRef, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import ExcelJS from 'exceljs';
+import { toPng } from 'html-to-image';
 import { 
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, 
   ResponsiveContainer, Area, AreaChart, ComposedChart, ReferenceLine 
 } from 'recharts';
 import { 
   Users, Upload, FileJson, CheckCircle, Sliders, Play, Plus, 
-  BarChart3, TrendingDown, UserCheck, Trash2, Globe, Languages
+  BarChart3, TrendingDown, UserCheck, Trash2, Globe, Languages, Github, Moon, Sun, Download, Sheet,
+  Orbit
 } from 'lucide-react';
 import { presetConfigs, configList } from './data';
 import { runSimulation, formatPopulation } from './simulator';
-import { translations, detectLanguage, t } from './i18n';
+import { detectLanguage, t } from './i18n';
 import './App.css';
 
 // 年份输入模态框
@@ -196,6 +199,7 @@ function CustomTooltip({ active, payload, label, lang }) {
 
 function App() {
   const [lang, setLang] = useState(() => detectLanguage());
+  const [theme, setTheme] = useState(() => localStorage.getItem('popprobe-theme') || 'light');
   const [config, setConfig] = useState(null);
   const [tfr, setTfr] = useState({});
   const [le, setLe] = useState({});
@@ -205,6 +209,12 @@ function App() {
   const [endYear, setEndYear] = useState(2100);
   const [showAllYears, setShowAllYears] = useState(false);
   const fileInputRef = useRef(null);
+  const chartRefs = useRef([]);
+  const githubUrl = 'https://github.com/harmony2ww/PopProbe';
+
+  useEffect(() => {
+    localStorage.setItem('popprobe-theme', theme);
+  }, [theme]);
 
   // 快捷获取翻译
   const T = (key) => t(lang, key);
@@ -274,6 +284,155 @@ function App() {
   const startData = results?.[0];
   const endData = results?.[results.length - 1];
 
+  const displayedResults = results
+    ? (showAllYears
+        ? results
+        : results.filter((r, i) => i === 0 || r.year % 10 === 0 || r.year === endYear))
+    : [];
+
+  const exportTableCsv = () => {
+    if (!displayedResults.length || !config) return;
+
+    const headers = [
+      T('year'),
+      T('totalPop'),
+      T('birthsWan'),
+      T('deathsWan'),
+      T('growthWan'),
+      T('agingRate'),
+      'TFR',
+      T('le')
+    ];
+
+    const rows = displayedResults.map((r) => [
+      r.year,
+      formatPopulation(r.totalPop, lang),
+      (r.births / 10).toFixed(0),
+      (r.deaths / 10).toFixed(0),
+      (r.growth / 10).toFixed(0),
+      `${r.agingRate.toFixed(1)}%`,
+      r.tfr.toFixed(2),
+      r.le.toFixed(1)
+    ]);
+
+    const escapeCsv = (value) => `"${String(value).replace(/"/g, '""')}"`;
+    const csv = [headers, ...rows].map((row) => row.map(escapeCsv).join(',')).join('\n');
+    const blob = new Blob([`\uFEFF${csv}`], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    const countryName = getCountryName(config).replace(/[\\/:*?"<>|\\s]+/g, '-');
+    const scopeName = showAllYears ? 'all-years' : 'key-years';
+    const dateTag = new Date().toISOString().slice(0, 10);
+
+    link.href = url;
+    link.download = `popprobe-${countryName}-${scopeName}-${dateTag}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  const exportExcelWithCharts = async () => {
+    if (!displayedResults.length || !config) return;
+
+    const workbook = new ExcelJS.Workbook();
+    const dataSheet = workbook.addWorksheet(lang === 'zh' ? '人口数据' : 'Population Data');
+    const chartsSheet = workbook.addWorksheet(lang === 'zh' ? '图表' : 'Charts');
+    const countryName = getCountryName(config);
+    const dateTag = new Date().toISOString().slice(0, 10);
+    const fileCountryName = countryName.replace(/[\\/:*?"<>|\\s]+/g, '-');
+
+    dataSheet.columns = [
+      { header: T('year'), key: 'year', width: 10 },
+      { header: T('totalPop'), key: 'population', width: 16 },
+      { header: T('birthsWan'), key: 'births', width: 12 },
+      { header: T('deathsWan'), key: 'deaths', width: 12 },
+      { header: T('growthWan'), key: 'growth', width: 12 },
+      { header: T('agingRate'), key: 'agingRate', width: 12 },
+      { header: 'TFR', key: 'tfr', width: 10 },
+      { header: T('le'), key: 'le', width: 10 }
+    ];
+
+    dataSheet.addRows(displayedResults.map((r) => ({
+      year: r.year,
+      population: formatPopulation(r.totalPop, lang),
+      births: (r.births / 10).toFixed(0),
+      deaths: (r.deaths / 10).toFixed(0),
+      growth: (r.growth / 10).toFixed(0),
+      agingRate: `${r.agingRate.toFixed(1)}%`,
+      tfr: r.tfr.toFixed(2),
+      le: r.le.toFixed(1)
+    })));
+
+    const headerRow = dataSheet.getRow(1);
+    headerRow.font = { bold: true };
+    headerRow.fill = {
+      type: 'pattern',
+      pattern: 'solid',
+      fgColor: { argb: theme === 'dark' ? '1E293B' : 'E2E8F0' }
+    };
+    headerRow.alignment = { vertical: 'middle', horizontal: 'center' };
+
+    dataSheet.insertRow(1, [
+      `${countryName} · ${lang === 'zh' ? '人口预测导出' : 'Population Projection Export'}`
+    ]);
+    dataSheet.mergeCells('A1:H1');
+    dataSheet.getCell('A1').font = { bold: true, size: 14 };
+    dataSheet.getCell('A1').alignment = { vertical: 'middle', horizontal: 'left' };
+    dataSheet.insertRow(2, [
+      `${lang === 'zh' ? '配置年份' : 'Base Year'}: ${config.year}    ${lang === 'zh' ? '预测至' : 'Projected to'}: ${endYear}    ${lang === 'zh' ? '导出范围' : 'Scope'}: ${showAllYears ? (lang === 'zh' ? '全部年份' : 'All Years') : (lang === 'zh' ? '关键年份' : 'Key Years')}`
+    ]);
+    dataSheet.mergeCells('A2:H2');
+    dataSheet.getCell('A2').font = { color: { argb: '64748B' }, size: 11 };
+    dataSheet.getCell('A2').alignment = { vertical: 'middle', horizontal: 'left' };
+    dataSheet.spliceRows(3, 0, []);
+    dataSheet.views = [{ state: 'frozen', ySplit: 4 }];
+
+    chartsSheet.columns = [{ width: 24 }, { width: 24 }, { width: 24 }, { width: 24 }];
+    chartsSheet.getCell('A1').value = `${countryName} · ${lang === 'zh' ? '图表导出' : 'Chart Export'}`;
+    chartsSheet.getCell('A1').font = { bold: true, size: 14 };
+
+    const chartNodes = chartRefs.current.filter(Boolean);
+    const imageBackground = theme === 'dark' ? '#162033' : '#f8fafc';
+    let currentRow = 3;
+
+    for (let i = 0; i < chartNodes.length; i += 1) {
+      const node = chartNodes[i];
+      try {
+        const dataUrl = await toPng(node, {
+          cacheBust: true,
+          pixelRatio: 2,
+          backgroundColor: imageBackground
+        });
+        const imageId = workbook.addImage({
+          base64: dataUrl,
+          extension: 'png'
+        });
+        chartsSheet.addImage(imageId, {
+          tl: { col: 0, row: currentRow - 1 },
+          ext: { width: 960, height: 320 }
+        });
+        currentRow += 18;
+      } catch {
+        chartsSheet.getCell(`A${currentRow}`).value = `${lang === 'zh' ? '图表导出失败' : 'Chart export failed'}: ${node.dataset.chartTitle || `Chart ${i + 1}`}`;
+        currentRow += 2;
+      }
+    }
+
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `popprobe-${fileCountryName}-with-charts-${dateTag}.xlsx`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   // 切换语言
   const toggleLang = () => setLang(lang === 'zh' ? 'en' : 'zh');
 
@@ -284,27 +443,57 @@ function App() {
   };
 
   return (
-    <div className="app">
+    <div className="app" data-theme={theme}>
       {/* Header */}
       <header className="header">
-        <div className="header-left">
-          <div className="logo"><Globe size={24} /></div>
-          <div>
-            <h1>PopProbe</h1>
-            <p>{T('appSubtitle')}</p>
+        <div className="header-main">
+          <div className="header-left">
+            <div className="logo-shell">
+              <Orbit className="logo-image lucide-logo" strokeWidth={1.8} />
+            </div>
+            <div className="header-copy">
+              <div className="hero-kicker">Population Simulator</div>
+              <h1>PopProbe</h1>
+              <p>{T('appSubtitle')}</p>
+            </div>
+          </div>
+          <div className="header-right">
+            <button className="theme-btn" onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
+              {theme === 'light' ? <Moon size={16} /> : <Sun size={16} />}
+              {theme === 'light' ? 'Dark' : 'Light'}
+            </button>
+            <button className="lang-btn" onClick={toggleLang}>
+              <Languages size={16} />
+              {lang === 'zh' ? 'EN' : '中'}
+            </button>
+            <a className="github-btn" href={githubUrl} target="_blank" rel="noreferrer">
+              <Github size={16} />
+              GitHub
+            </a>
+            {config && (
+              <div className="config-badge">
+                <CheckCircle size={16} />
+                {T('loaded')}: {config.flag} {getCountryName(config)} ({config.year})
+              </div>
+            )}
           </div>
         </div>
-        <div className="header-right">
-          <button className="lang-btn" onClick={toggleLang}>
-            <Languages size={16} />
-            {lang === 'zh' ? 'EN' : '中'}
-          </button>
-          {config && (
-            <div className="config-badge">
-              <CheckCircle size={16} />
-              {T('loaded')}: {config.flag} {getCountryName(config)} ({config.year})
-            </div>
-          )}
+        <div className="hero-summary">
+          <div className="summary-panel">
+            <span className="summary-panel-label">{lang === 'zh' ? '方法' : 'Method'}</span>
+            <strong>{lang === 'zh' ? '队列要素法' : 'Cohort-Component Model'}</strong>
+            <span>{lang === 'zh' ? '按年龄结构逐年模拟出生、死亡与老龄化' : 'Simulate births, deaths, and aging year by year'}</span>
+          </div>
+          <div className="summary-panel">
+            <span className="summary-panel-label">{lang === 'zh' ? '输出' : 'Outputs'}</span>
+            <strong>{lang === 'zh' ? '人口总量 / 年龄结构 / 老龄化' : 'Population / Age Structure / Aging'}</strong>
+            <span>{lang === 'zh' ? '支持预设国家与自定义 JSON 配置' : 'Preset countries plus custom JSON configs'}</span>
+          </div>
+          <div className="summary-panel accent">
+            <span className="summary-panel-label">{lang === 'zh' ? '当前状态' : 'Current State'}</span>
+            <strong>{config ? `${config.flag} ${getCountryName(config)}` : (lang === 'zh' ? '等待载入配置' : 'Waiting for configuration')}</strong>
+            <span>{results ? `${results[0].year} - ${results[results.length - 1].year}` : (lang === 'zh' ? '先选择国家，再运行模拟' : 'Select a country, then run the simulation')}</span>
+          </div>
         </div>
       </header>
 
@@ -361,10 +550,20 @@ function App() {
       {/* 参数设置 */}
       {config && (
         <div className="card">
-          <div className="card-header">
-            <div className="card-icon purple"><Sliders size={20} /></div>
-            <span className="card-title">{T('paramSettings')}</span>
-          </div>
+        <div className="card-header">
+          <div className="card-icon purple"><Sliders size={20} /></div>
+          <span className="card-title">{T('paramSettings')}</span>
+        </div>
+        <div className="section-intro">
+          {lang === 'zh'
+            ? '这一段控制的是人口预测的三条核心曲线：生育率、预期寿命和平均生育年龄。你可以把它理解成给模型设定未来几十年的社会情景，再观察总人口、出生死亡和老龄化会怎么变化。'
+            : 'This section controls the three core curves behind the projection: fertility, life expectancy, and mean childbearing age. Think of it as defining future social scenarios, then observing how population size, births, deaths, and aging respond over time.'}
+        </div>
+        <div className="section-intro secondary">
+          {lang === 'zh'
+            ? '如果你把自己代入一个国家的管理者，长期真正能影响的，基本也就是这几个参数。想提高生育率，往往只能从育儿补贴、住房成本、教育负担、女性就业环境这些地方下手；如果年轻人收入预期变差、养育成本上升、生育和职业发展冲突加剧，生育率通常就会继续下滑。预期寿命更多取决于医疗条件、公共卫生、营养水平和老年照护体系，持续改善这些，寿命才会慢慢抬升。平均生育年龄的变化，则往往反映结婚、生育推迟和城市化进程。也就是说，国家并不能直接“命令人口变化”，真正能调的，通常只有这些慢变量。'
+            : 'If you think like a national policymaker, these are basically the few levers you can influence over the long run. To raise fertility, policy usually works indirectly through childcare subsidies, housing affordability, education costs, and the compatibility between parenthood and careers. When income expectations weaken, childrearing costs rise, or work-family conflicts worsen, fertility tends to fall further. Life expectancy is more closely tied to healthcare quality, public health, nutrition, and elderly care systems, so improvements here tend to lift longevity gradually. Mean childbearing age often reflects delayed marriage, delayed childbirth, and urbanization. In other words, governments cannot directly command population outcomes; they can usually only push these slow-moving structural parameters.'}
+        </div>
           
           <div className="form-row">
             <div className="form-group">
@@ -455,7 +654,7 @@ function App() {
 
           {/* 图表 */}
           <div className="charts-grid">
-            <div className="chart-card">
+            <div className="chart-card" ref={(node) => { chartRefs.current[0] = node; }} data-chart-title={T('totalPopChange')}>
               <div className="chart-title">{T('totalPopChange')} ({unitLabel})</div>
               <ResponsiveContainer width="100%" height={280}>
                 <AreaChart data={chartData}>
@@ -474,7 +673,7 @@ function App() {
               </ResponsiveContainer>
             </div>
 
-            <div className="chart-card">
+            <div className="chart-card" ref={(node) => { chartRefs.current[1] = node; }} data-chart-title={T('birthDeath')}>
               <div className="chart-title">{T('birthDeath')} ({lang === 'zh' ? '万人/年' : '10k/yr'})</div>
               <ResponsiveContainer width="100%" height={280}>
                 <LineChart data={chartData}>
@@ -490,7 +689,7 @@ function App() {
               </ResponsiveContainer>
             </div>
 
-            <div className="chart-card">
+            <div className="chart-card" ref={(node) => { chartRefs.current[2] = node; }} data-chart-title={T('ageStructure')}>
               <div className="chart-title">{T('ageStructure')} ({unitLabel})</div>
               <ResponsiveContainer width="100%" height={280}>
                 <AreaChart data={chartData}>
@@ -506,7 +705,7 @@ function App() {
               </ResponsiveContainer>
             </div>
 
-            <div className="chart-card">
+            <div className="chart-card" ref={(node) => { chartRefs.current[3] = node; }} data-chart-title={T('agingTfr')}>
               <div className="chart-title">{T('agingTfr')}</div>
               <ResponsiveContainer width="100%" height={280}>
                 <ComposedChart data={chartData}>
@@ -527,19 +726,29 @@ function App() {
           <div className="table-section">
             <div className="table-header">
               <div className="chart-title">{showAllYears ? T('allYears') : T('keyYears')}</div>
-              <div className="table-toggle">
-                <button 
-                  className={`toggle-btn ${!showAllYears ? 'active' : ''}`}
-                  onClick={() => setShowAllYears(false)}
-                >
-                  {T('keyYears')}
+              <div className="table-controls">
+                <button className="export-btn" onClick={exportExcelWithCharts}>
+                  <Sheet size={15} />
+                  {lang === 'zh' ? '导出 Excel + 图表' : 'Export Excel + Charts'}
                 </button>
-                <button 
-                  className={`toggle-btn ${showAllYears ? 'active' : ''}`}
-                  onClick={() => setShowAllYears(true)}
-                >
-                  {T('allYears')}
+                <button className="export-btn" onClick={exportTableCsv}>
+                  <Download size={15} />
+                  {lang === 'zh' ? '导出 CSV' : 'Export CSV'}
                 </button>
+                <div className="table-toggle">
+                  <button 
+                    className={`toggle-btn ${!showAllYears ? 'active' : ''}`}
+                    onClick={() => setShowAllYears(false)}
+                  >
+                    {T('keyYears')}
+                  </button>
+                  <button 
+                    className={`toggle-btn ${showAllYears ? 'active' : ''}`}
+                    onClick={() => setShowAllYears(true)}
+                  >
+                    {T('allYears')}
+                  </button>
+                </div>
               </div>
             </div>
             <div className={`table-wrapper ${showAllYears ? 'scrollable' : ''}`}>
@@ -557,10 +766,7 @@ function App() {
                   </tr>
                 </thead>
                 <tbody>
-                  {(showAllYears 
-                    ? results 
-                    : results.filter((r, i) => i === 0 || r.year % 10 === 0 || r.year === endYear)
-                  ).map(r => (
+                  {displayedResults.map(r => (
                     <tr key={r.year}>
                       <td className="bold">{r.year}</td>
                       <td>{formatPopulation(r.totalPop, lang)}</td>
